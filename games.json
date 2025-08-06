@@ -3,43 +3,47 @@
     "class": "Lớp 1",
     "color": "#4CAF50",
     "games": [
+      // 🔽 Thêm game mới của Lớp 1 vào đây (mỗi game là 1 dòng)
       { "name": "Numbers to 20", "link": "https://hakakh.github.io/numbers-to-20/", "icon": "🔢" },
       { "name": "Colors", "link": "https://hakakh.github.io/colors-grade-1/", "icon": "🎨" },
-      { "name": "Daily Routine", "link": "https://hakakh.github.io/wordsearch-daily-routine/", "icon": "🧩" },
-      { "name": "Daily Routine 1", "link": "https://hakakh.github.io/wordsearch-daily-routine-1/", "icon": "🧩" },
-      { "name": "Daily Routine 1.1", "link": "https://hakakh.github.io/wordsearch-daily-routine-1.1/", "icon": "🧩" },
-      { "name": "Numbers to 100", "link": "https://hakakh.github.io/numbers-to-100/", "icon": "🔢" }
+      { "name": "Daily Routine", "link": "https://hakakh.github.io/wordsearch-daily-routine/", "icon": "🧩" }
     ]
   },
   {
     "class": "Lớp 2",
     "color": "#FF9800",
     "games": [
-      { "name": "Sport Activities", "link": "https://hakakh.github.io/RO6-SPORT-ACTIVITIES/", "icon": "🏀" },
-      { "name": "Sport Activities 1.1", "link": "https://hakakh.github.io/RO6-SPORT-ACTIVITIES-1.1/", "icon": "🏀" }
+      // 🔽 Thêm game mới của Lớp 2 vào đây
+      { "name": "Sport Activities", "link": "https://hakakh.github.io/RO6-SPORT-ACTIVITIES/", "icon": "🏀" }
     ]
   },
   {
     "class": "Lớp 3",
     "color": "#2196F3",
     "games": [
+      // 🔽 Thêm game mới của Lớp 3 vào đây
       { "name": "RO6 Welcome Back", "link": "https://hakakh.github.io/RO6-Welcome-back/", "icon": "🧩" }
     ]
   },
   {
     "class": "Lớp 4",
     "color": "#9C27B0",
-    "games": []
+    "games": [
+      // 🔽 Thêm game mới của Lớp 4 vào đây
+    ]
   },
   {
     "class": "Lớp 5",
     "color": "#E91E63",
-    "games": []
+    "games": [
+      // 🔽 Thêm game mới của Lớp 5 vào đây
+    ]
   },
   {
     "class": "Lớp 6",
     "color": "#009688",
     "games": [
+      // 🔽 Thêm game mới của Lớp 6 vào đây
       { "name": "Talk About Vicky", "link": "https://hakakh.github.io/RO6-TALK-ABOUT-VICKY/", "icon": "💬" }
     ]
   },
@@ -47,42 +51,24 @@
     "class": "Lớp 7",
     "color": "#795548",
     "games": [
-      { "name": "RO7 Spelling Welcome Back", "link": "https://hakakh.github.io/-RO7-SPELLING-WELCOME-BACK/", "icon": "📝" },
-      { "name": "RO7 Spelling Welcome Back 1.1", "link": "https://hakakh.github.io/RO7-Spelling-Welcome-back-1.1/", "icon": "📝" },
-      { "name": "Vocab Unit 5", "link": "https://hakakh.github.io/vocabunit5ro7/", "icon": "📚" }
+      // 🔽 Thêm game mới của Lớp 7 vào đây
+      { "name": "RO7 Spelling Welcome Back", "link": "https://hakakh.github.io/-RO7-SPELLING-WELCOME-BACK/", "icon": "📝" }
     ]
   },
   {
     "class": "Lớp 8",
     "color": "#673AB7",
     "games": [
-      { "name": "RO8 Welcome Back", "link": "https://hakakh.github.io/RO8-welcome-back/", "icon": "🧩" },
-      { "name": "RO8 Spelling People and Activities", "link": "https://hakakh.github.io/RO8-SPELLING-WBACK-PEOPLE-AND-DAILY-ACTIVITIES/", "icon": "🧍‍♂️" }
+      // 🔽 Thêm game mới của Lớp 8 vào đây
+      { "name": "RO8 Welcome Back", "link": "https://hakakh.github.io/RO8-welcome-back/", "icon": "🧩" }
     ]
   },
   {
     "class": "Lớp 9",
     "color": "#3F51B5",
     "games": [
+      // 🔽 Thêm game mới của Lớp 9 vào đây
       { "name": "RO9 Welcome Back", "link": "https://hakakh.github.io/RO9-Welcome-back/", "icon": "🧩" }
-    ]
-  },
-  {
-    "class": "Chưa phân loại",
-    "color": "#607D8B",
-    "games": [
-      { "name": "Speaking Practice", "link": "https://hakakh.github.io/Speaking-practice/", "icon": "🗣" },
-      { "name": "Speaking Hak", "link": "https://hakakh.github.io/speakingHak/", "icon": "🗣" },
-      { "name": "Spelling Game Daily Activities", "link": "https://hakakh.github.io/spelling-game-daily-activities/", "icon": "📝" },
-      { "name": "Spelling Book or Movie", "link": "https://hakakh.github.io/Spelling-book-or-movie/", "icon": "🎬" },
-      { "name": "Spelling I Have", "link": "https://hakakh.github.io/Spelling-i-have/", "icon": "📖" },
-      { "name": "Spelling Singular Plural Nouns", "link": "https://hakakh.github.io/SPELLING-SINGULAR-PLURAL-NOUNS/", "icon": "📚" },
-      { "name": "Singular/Plural Nouns Wordsearch", "link": "https://hakakh.github.io/singlar-and-plural-nouns/", "icon": "📚" },
-      { "name": "Countries and Nationalities", "link": "https://hakakh.github.io/countries-and-nationalities/", "icon": "🌍" },
-      { "name": "Vocabsound", "link": "https://hakakh.github.io/vocabsound/", "icon": "🔊" },
-      { "name": "Vuot Chuong Ngai Vat", "link": "https://hakakh.github.io/vuotchuongngaivat/", "icon": "🍔" },
-      { "name": "Luyen Phat Am Past Verbs", "link": "https://hakakh.github.io/luyenphatampastverbs/", "icon": "🔤" },
-      { "name": "Spelling", "link": "https://hakakh.github.io/spelling/", "icon": "🔡" }
     ]
   }
 ]

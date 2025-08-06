@@ -27,6 +27,12 @@
   gap: 15px;
 }
 
+.class-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
 .class-card {
   border-radius: 8px;
   color: white;
@@ -43,10 +49,10 @@
 
 .game-list {
   display: none;
-  grid-column: span 3;
   background: white;
   border-radius: 6px;
   padding: 10px 15px;
+  margin-top: 8px;
 }
 .game-list.open {
   display: block;
@@ -121,20 +127,21 @@ function renderGames() {
   container.innerHTML = "";
   gamesData.forEach((cls, i) => {
     const id = `class${i+1}`;
-    // Card lớp
     container.innerHTML += `
-      <div class="class-card" style="background:${cls.color}" onclick="toggleGames('${id}')">
-        📘 ${cls.class}
-      </div>
-      <div id="${id}" class="game-list">
-        ${cls.games.length
-          ? cls.games.map((g, idx) => `
-            <li>
-              <a href="${g.link}" target="_blank">${g.icon} ${g.name}</a>
-              ${isAdmin ? `<button class="delete-btn" onclick="deleteGame(${i}, ${idx})">🗑</button>` : ""}
-            </li>`).join('')
-          : "<li>(Chưa có game)</li>"
-        }
+      <div class="class-container">
+        <div class="class-card" style="background:${cls.color}" onclick="toggleGames('${id}')">
+          📘 ${cls.class}
+        </div>
+        <div id="${id}" class="game-list">
+          ${cls.games.length
+            ? cls.games.map((g, idx) => `
+              <li>
+                <a href="${g.link}" target="_blank">${g.icon} ${g.name}</a>
+                ${isAdmin ? `<button class="delete-btn" onclick="deleteGame(${i}, ${idx})">🗑</button>` : ""}
+              </li>`).join('')
+            : "<li>(Chưa có game)</li>"
+          }
+        </div>
       </div>
     `;
   });

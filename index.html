@@ -14,10 +14,24 @@
   header {
     background: #24292e;
     color: white;
-    padding: 20px;
+    padding: 15px;
     text-align: center;
-    font-size: 24px;
-    font-weight: bold;
+    font-size: 22px;
+    position: relative;
+  }
+  .admin-btn {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    padding: 5px 10px;
+    background: #ff9800;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .admin-btn:hover {
+    background: #e68a00;
   }
   .form-section {
     background: white;
@@ -26,6 +40,7 @@
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: none; /* Ẩn form mặc định */
   }
   .form-section input, .form-section select {
     padding: 8px;
@@ -108,10 +123,13 @@
 </head>
 <body>
 
-<header>🎮 CỔNG GAME HỌC TẬP LỚP 1 → 9</header>
+<header>
+  🎮 CỔNG GAME HỌC TẬP LỚP 1 → 9
+  <button class="admin-btn" onclick="showAdmin()">Quản trị</button>
+</header>
 
-<!-- Form tạo JSON -->
-<div class="form-section">
+<!-- Form quản trị -->
+<div class="form-section" id="adminForm">
   <h3>➕ Thêm game mới (tạo JSON để copy vào GitHub)</h3>
   <input type="text" id="gameName" placeholder="Tên game">
   <input type="text" id="gameLink" placeholder="Link game (https://...)">
@@ -128,6 +146,7 @@
     <option value="Lớp 9">Lớp 9</option>
   </select>
   <button onclick="generateJSON()">Tạo JSON</button>
+  <button onclick="downloadJSON()">📥 Download games.json</button>
   <div class="output" id="output"></div>
 </div>
 
@@ -136,11 +155,14 @@
 <div class="class-section" id="container"></div>
 
 <script>
+let gamesData = [];
+
 async function loadGames() {
   const response = await fetch('games.json');
-  const data = await response.json();
+  gamesData = await response.json();
   const container = document.getElementById('container');
-  data.forEach((cls, index) => {
+  container.innerHTML = "";
+  gamesData.forEach((cls, index) => {
     const classId = `class${index+1}`;
     let gamesHTML = '';
     cls.games.forEach(game => {
@@ -163,14 +185,18 @@ function toggleGames(id) {
 function toggleAll() {
   document.querySelectorAll('.game-list').forEach(list => {
     const isOpen = list.classList.contains('open');
-    if (isOpen) {
-      list.classList.remove('open');
-      list.style.maxHeight = null;
-    } else {
-      list.classList.add('open');
-      list.style.maxHeight = list.scrollHeight + "px";
-    }
+    list.classList.toggle('open', !isOpen);
+    list.style.maxHeight = !isOpen ? list.scrollHeight + "px" : null;
   });
+}
+
+function showAdmin() {
+  const password = prompt("Nhập mật khẩu quản trị:");
+  if (password === "hakadmin") {
+    document.getElementById('adminForm').style.display = "block";
+  } else {
+    alert("Sai mật khẩu!");
+  }
 }
 
 function generateJSON() {
@@ -178,15 +204,31 @@ function generateJSON() {
   const link = document.getElementById('gameLink').value.trim();
   const icon = document.getElementById('gameIcon').value.trim();
   const cls = document.getElementById('gameClass').value;
-  
+
   if (!name || !link || !icon) {
     alert("Vui lòng nhập đầy đủ thông tin!");
     return;
   }
-  
-  const jsonLine = `{ "name": "${name}", "link": "${link}", "icon": "${icon}" }`;
+
+  const classObj = gamesData.find(c => c.class === cls);
+  if (classObj) {
+    classObj.games.push({ name, link, icon });
+  }
+
   document.getElementById('output').textContent = 
-    `📌 Dán dòng này vào "games" của ${cls} trong games.json:\n${jsonLine}`;
+    `✅ Game đã thêm vào ${cls}.\n\n📌 Nhớ bấm Download để lấy file JSON mới.`;
+
+  loadGames();
+}
+
+function downloadJSON() {
+  const blob = new Blob([JSON.stringify(gamesData, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'games.json';
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 loadGames();

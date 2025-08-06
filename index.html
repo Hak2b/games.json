@@ -18,7 +18,41 @@
     text-align: center;
     font-size: 24px;
     font-weight: bold;
-    letter-spacing: 1px;
+  }
+  .form-section {
+    background: white;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  .form-section input, .form-section select {
+    padding: 8px;
+    width: calc(100% - 20px);
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  .form-section button {
+    padding: 10px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    margin-top: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .form-section button:hover {
+    background: #45a049;
+  }
+  .output {
+    background: #f0f0f0;
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 10px;
+    font-family: monospace;
+    white-space: pre-wrap;
   }
   .btn-toggle-all {
     display: block;
@@ -30,7 +64,6 @@
     border-radius: 6px;
     font-size: 16px;
     cursor: pointer;
-    transition: background 0.3s ease;
   }
   .btn-toggle-all:hover {
     background: #e64a19;
@@ -47,16 +80,11 @@
     cursor: pointer;
     margin-bottom: 8px;
     font-size: 18px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  .class-title:hover {
-    transform: scale(1.03);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   }
   .game-list {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s ease, padding 0.4s ease;
+    transition: max-height 0.4s ease;
     background: white;
     border-radius: 6px;
     margin-bottom: 12px;
@@ -72,7 +100,6 @@
   a {
     color: #0366d6;
     text-decoration: none;
-    font-weight: bold;
   }
   a:hover {
     text-decoration: underline;
@@ -83,34 +110,48 @@
 
 <header>🎮 CỔNG GAME HỌC TẬP LỚP 1 → 9</header>
 
-<button class="btn-toggle-all" onclick="toggleAll()">📂 Mở / Đóng Tất Cả Game</button>
+<!-- Form tạo JSON -->
+<div class="form-section">
+  <h3>➕ Thêm game mới (tạo JSON để copy vào GitHub)</h3>
+  <input type="text" id="gameName" placeholder="Tên game">
+  <input type="text" id="gameLink" placeholder="Link game (https://...)">
+  <input type="text" id="gameIcon" placeholder="Icon (ví dụ: 🧩)">
+  <select id="gameClass">
+    <option value="Lớp 1">Lớp 1</option>
+    <option value="Lớp 2">Lớp 2</option>
+    <option value="Lớp 3">Lớp 3</option>
+    <option value="Lớp 4">Lớp 4</option>
+    <option value="Lớp 5">Lớp 5</option>
+    <option value="Lớp 6">Lớp 6</option>
+    <option value="Lớp 7">Lớp 7</option>
+    <option value="Lớp 8">Lớp 8</option>
+    <option value="Lớp 9">Lớp 9</option>
+  </select>
+  <button onclick="generateJSON()">Tạo JSON</button>
+  <div class="output" id="output"></div>
+</div>
 
+<!-- Danh sách game -->
+<button class="btn-toggle-all" onclick="toggleAll()">📂 Mở / Đóng Tất Cả Game</button>
 <div class="class-section" id="container"></div>
 
 <script>
 async function loadGames() {
-  try {
-    const response = await fetch('games.json'); // đọc file JSON trong repo
-    const data = await response.json();
-    const container = document.getElementById('container');
-    
-    data.forEach((cls, index) => {
-      const classId = `class${index+1}`;
-      let gamesHTML = '';
-      cls.games.forEach(game => {
-        gamesHTML += `<li><a href="${game.link}" target="_blank">${game.icon} ${game.name}</a></li>`;
-      });
-      
-      container.innerHTML += `
-        <div class="class-title" style="background:${cls.color}" onclick="toggleGames('${classId}')">📘 ${cls.class}</div>
-        <ul id="${classId}" class="game-list">
-          ${gamesHTML}
-        </ul>
-      `;
+  const response = await fetch('games.json');
+  const data = await response.json();
+  const container = document.getElementById('container');
+  data.forEach((cls, index) => {
+    const classId = `class${index+1}`;
+    let gamesHTML = '';
+    cls.games.forEach(game => {
+      gamesHTML += `<li><a href="${game.link}" target="_blank">${game.icon} ${game.name}</a></li>`;
     });
-  } catch (error) {
-    console.error("Lỗi tải games.json:", error);
-  }
+    if (cls.games.length === 0) gamesHTML = "<li>(Chưa có game)</li>";
+    container.innerHTML += `
+      <div class="class-title" style="background:${cls.color}" onclick="toggleGames('${classId}')">📘 ${cls.class}</div>
+      <ul id="${classId}" class="game-list">${gamesHTML}</ul>
+    `;
+  });
 }
 
 function toggleGames(id) {
@@ -130,6 +171,22 @@ function toggleAll() {
       list.style.maxHeight = list.scrollHeight + "px";
     }
   });
+}
+
+function generateJSON() {
+  const name = document.getElementById('gameName').value.trim();
+  const link = document.getElementById('gameLink').value.trim();
+  const icon = document.getElementById('gameIcon').value.trim();
+  const cls = document.getElementById('gameClass').value;
+  
+  if (!name || !link || !icon) {
+    alert("Vui lòng nhập đầy đủ thông tin!");
+    return;
+  }
+  
+  const jsonLine = `{ "name": "${name}", "link": "${link}", "icon": "${icon}" }`;
+  document.getElementById('output').textContent = 
+    `📌 Dán dòng này vào "games" của ${cls} trong games.json:\n${jsonLine}`;
 }
 
 loadGames();

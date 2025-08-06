@@ -51,15 +51,31 @@
   }
   .form-section button {
     padding: 10px;
-    background: #4CAF50;
-    color: white;
+    margin: 5px 2px;
     border: none;
-    margin-top: 10px;
     border-radius: 5px;
     cursor: pointer;
   }
-  .form-section button:hover {
+  .add-btn {
+    background: #4CAF50;
+    color: white;
+  }
+  .add-btn:hover {
     background: #45a049;
+  }
+  .back-btn {
+    background: #9E9E9E;
+    color: white;
+  }
+  .back-btn:hover {
+    background: #757575;
+  }
+  .download-btn {
+    background: #2196F3;
+    color: white;
+  }
+  .download-btn:hover {
+    background: #1976D2;
   }
   .output {
     background: #f0f0f0;
@@ -119,6 +135,27 @@
   a:hover {
     text-decoration: underline;
   }
+
+  /* Popup thông báo */
+  .popup {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    display: none;
+    animation: fadein 0.3s, fadeout 0.3s 2.7s;
+  }
+  @keyframes fadein {
+    from {opacity: 0; transform: translateY(20px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+  @keyframes fadeout {
+    from {opacity: 1; transform: translateY(0);}
+    to {opacity: 0; transform: translateY(20px);}
+  }
 </style>
 </head>
 <body>
@@ -130,7 +167,7 @@
 
 <!-- Form quản trị -->
 <div class="form-section" id="adminForm">
-  <h3>➕ Thêm game mới (tạo JSON để copy vào GitHub)</h3>
+  <h3>➕ Thêm game mới</h3>
   <input type="text" id="gameName" placeholder="Tên game">
   <input type="text" id="gameLink" placeholder="Link game (https://...)">
   <input type="text" id="gameIcon" placeholder="Icon (ví dụ: 🧩)">
@@ -145,8 +182,9 @@
     <option value="Lớp 8">Lớp 8</option>
     <option value="Lớp 9">Lớp 9</option>
   </select>
-  <button onclick="generateJSON()">Tạo JSON</button>
-  <button onclick="downloadJSON()">📥 Download games.json</button>
+  <button class="add-btn" onclick="generateJSON()">Tạo JSON</button>
+  <button class="download-btn" onclick="downloadJSON()">📥 Download games.json</button>
+  <button class="back-btn" onclick="hideAdmin()">⬅ Quay về màn hình chính</button>
   <div class="output" id="output"></div>
 </div>
 
@@ -154,12 +192,23 @@
 <button class="btn-toggle-all" onclick="toggleAll()">📂 Mở / Đóng Tất Cả Game</button>
 <div class="class-section" id="container"></div>
 
+<!-- Popup thông báo -->
+<div class="popup" id="popup"></div>
+
 <script>
 let gamesData = [];
 
 async function loadGames() {
-  const response = await fetch('games.json');
-  gamesData = await response.json();
+  try {
+    const response = await fetch('games.json');
+    gamesData = await response.json();
+    renderGames();
+  } catch (error) {
+    console.error("Lỗi load games.json", error);
+  }
+}
+
+function renderGames() {
   const container = document.getElementById('container');
   container.innerHTML = "";
   gamesData.forEach((cls, index) => {
@@ -194,9 +243,14 @@ function showAdmin() {
   const password = prompt("Nhập mật khẩu quản trị:");
   if (password === "hakadmin") {
     document.getElementById('adminForm').style.display = "block";
+    window.scrollTo(0,0);
   } else {
     alert("Sai mật khẩu!");
   }
+}
+
+function hideAdmin() {
+  document.getElementById('adminForm').style.display = "none";
 }
 
 function generateJSON() {
@@ -215,10 +269,8 @@ function generateJSON() {
     classObj.games.push({ name, link, icon });
   }
 
-  document.getElementById('output').textContent = 
-    `✅ Game đã thêm vào ${cls}.\n\n📌 Nhớ bấm Download để lấy file JSON mới.`;
-
-  loadGames();
+  renderGames();
+  showPopup(`✅ Đã thêm game vào ${cls}`);
 }
 
 function downloadJSON() {
@@ -229,6 +281,17 @@ function downloadJSON() {
   a.download = 'games.json';
   a.click();
   URL.revokeObjectURL(url);
+
+  showPopup("📥 File games.json đã tải xuống thành công");
+}
+
+function showPopup(message) {
+  const popup = document.getElementById('popup');
+  popup.textContent = message;
+  popup.style.display = "block";
+  setTimeout(() => {
+    popup.style.display = "none";
+  }, 3000);
 }
 
 loadGames();

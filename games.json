@@ -2,73 +2,46 @@
   {
     "class": "Lớp 1",
     "color": "#4CAF50",
-    "games": [
-      // 🔽 Thêm game mới của Lớp 1 vào đây (mỗi game là 1 dòng)
-      { "name": "Numbers to 20", "link": "https://hakakh.github.io/numbers-to-20/", "icon": "🔢" },
-      { "name": "Colors", "link": "https://hakakh.github.io/colors-grade-1/", "icon": "🎨" },
-      { "name": "Daily Routine", "link": "https://hakakh.github.io/wordsearch-daily-routine/", "icon": "🧩" }
-    ]
+    "games": []
   },
   {
     "class": "Lớp 2",
     "color": "#FF9800",
-    "games": [
-      // 🔽 Thêm game mới của Lớp 2 vào đây
-      { "name": "Sport Activities", "link": "https://hakakh.github.io/RO6-SPORT-ACTIVITIES/", "icon": "🏀" }
-    ]
+    "games": []
   },
   {
     "class": "Lớp 3",
     "color": "#2196F3",
-    "games": [
-      // 🔽 Thêm game mới của Lớp 3 vào đây
-      { "name": "RO6 Welcome Back", "link": "https://hakakh.github.io/RO6-Welcome-back/", "icon": "🧩" }
-    ]
+    "games": []
   },
   {
     "class": "Lớp 4",
     "color": "#9C27B0",
-    "games": [
-      // 🔽 Thêm game mới của Lớp 4 vào đây
-    ]
+    "games": []
   },
   {
     "class": "Lớp 5",
     "color": "#E91E63",
-    "games": [
-      // 🔽 Thêm game mới của Lớp 5 vào đây
-    ]
+    "games": []
   },
   {
     "class": "Lớp 6",
     "color": "#009688",
-    "games": [
-      // 🔽 Thêm game mới của Lớp 6 vào đây
-      { "name": "Talk About Vicky", "link": "https://hakakh.github.io/RO6-TALK-ABOUT-VICKY/", "icon": "💬" }
-    ]
+    "games": []
   },
   {
     "class": "Lớp 7",
     "color": "#795548",
-    "games": [
-      // 🔽 Thêm game mới của Lớp 7 vào đây
-      { "name": "RO7 Spelling Welcome Back", "link": "https://hakakh.github.io/-RO7-SPELLING-WELCOME-BACK/", "icon": "📝" }
-    ]
+    "games": []
   },
   {
     "class": "Lớp 8",
     "color": "#673AB7",
-    "games": [
-      // 🔽 Thêm game mới của Lớp 8 vào đây
-      { "name": "RO8 Welcome Back", "link": "https://hakakh.github.io/RO8-welcome-back/", "icon": "🧩" }
-    ]
+    "games": []
   },
   {
     "class": "Lớp 9",
     "color": "#3F51B5",
-    "games": [
-      // 🔽 Thêm game mới của Lớp 9 vào đây
-      { "name": "RO9 Welcome Back", "link": "https://hakakh.github.io/RO9-Welcome-back/", "icon": "🧩" }
-    ]
+    "games": []
   }
 ]

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cổng Game Học Tập</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(120deg, #f4f4f4, #eaeaea);
+    margin: 0;
+    padding: 0;
+  }
+  header {
+    background: #24292e;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+  .btn-toggle-all {
+    display: block;
+    margin: 15px auto;
+    padding: 10px 15px;
+    background: #ff5722;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  .btn-toggle-all:hover {
+    background: #e64a19;
+  }
+  .class-section {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 10px;
+  }
+  .class-title {
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 8px;
+    font-size: 18px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .class-title:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+  .game-list {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+    background: white;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    padding: 0 15px;
+  }
+  .game-list.open {
+    padding: 10px 15px;
+  }
+  .game-list li {
+    margin: 10px 0;
+    list-style: none;
+  }
+  a {
+    color: #0366d6;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+</style>
+</head>
+<body>
+
+<header>🎮 CỔNG GAME HỌC TẬP LỚP 1 → 9</header>
+
+<button class="btn-toggle-all" onclick="toggleAll()">📂 Mở / Đóng Tất Cả Game</button>
+
+<div class="class-section" id="container"></div>
+
+<script>
+async function loadGames() {
+  try {
+    const response = await fetch('games.json'); // đọc file JSON
+    const data = await response.json();
+    const container = document.getElementById('container');
+    
+    data.forEach((cls, index) => {
+      const classId = `class${index+1}`;
+      let gamesHTML = '';
+      cls.games.forEach(game => {
+        gamesHTML += `<li><a href="${game.link}" target="_blank">${game.icon} ${game.name}</a></li>`;
+      });
+      
+      container.innerHTML += `
+        <div class="class-title" style="background:${cls.color}" onclick="toggleGames('${classId}')">📘 ${cls.class}</div>
+        <ul id="${classId}" class="game-list">
+          ${gamesHTML}
+        </ul>
+      `;
+    });
+  } catch (error) {
+    console.error("Lỗi tải games.json:", error);
+  }
+}
+
+function toggleGames(id) {
+  const list = document.getElementById(id);
+  list.classList.toggle('open');
+  list.style.maxHeight = list.classList.contains('open') ? list.scrollHeight + "px" : null;
+}
+
+function toggleAll() {
+  document.querySelectorAll('.game-list').forEach(list => {
+    const isOpen = list.classList.contains('open');
+    if (isOpen) {
+      list.classList.remove('open');
+      list.style.maxHeight = null;
+    } else {
+      list.classList.add('open');
+      list.style.maxHeight = list.scrollHeight + "px";
+    }
+  });
+}
+
+loadGames();
+</script>
+
+</body>
+</html>

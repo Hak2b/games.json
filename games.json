@@ -2,7 +2,9 @@
   {
     "class": "Lớp 1",
     "color": "#4CAF50",
-    "games": []
+    "games": [
+      { "name": "Đọc phiên âm IPA", "link": "https://hakakh.github.io/numbers-to-20/", "icon": "🔤" }
+    ]
   },
   {
     "class": "Lớp 2",

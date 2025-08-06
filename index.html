@@ -7,7 +7,7 @@
 <style>
   body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(120deg, #f4f4f4, #eaeaea);
+    background: #f4f4f4;
     margin: 0;
     padding: 0;
   }
@@ -30,9 +30,6 @@
     border-radius: 5px;
     cursor: pointer;
   }
-  .admin-btn:hover {
-    background: #e68a00;
-  }
   .form-section {
     background: white;
     max-width: 800px;
@@ -40,7 +37,7 @@
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    display: none; /* Ẩn form mặc định */
+    display: none;
   }
   .form-section input, .form-section select {
     padding: 8px;
@@ -55,49 +52,21 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-  }
-  .add-btn {
-    background: #4CAF50;
     color: white;
   }
-  .add-btn:hover {
-    background: #45a049;
-  }
-  .back-btn {
-    background: #9E9E9E;
-    color: white;
-  }
-  .back-btn:hover {
-    background: #757575;
-  }
-  .download-btn {
-    background: #2196F3;
-    color: white;
-  }
-  .download-btn:hover {
-    background: #1976D2;
-  }
-  .output {
-    background: #f0f0f0;
-    padding: 10px;
-    border-radius: 6px;
-    margin-top: 10px;
-    font-family: monospace;
-    white-space: pre-wrap;
-  }
+  .add-btn { background: #4CAF50; }
+  .back-btn { background: #9E9E9E; }
+  .download-btn { background: #2196F3; }
   .btn-toggle-all {
     display: block;
     margin: 15px auto;
     padding: 10px 15px;
     background: #ff5722;
-    color: white;
     border: none;
     border-radius: 6px;
     font-size: 16px;
+    color: white;
     cursor: pointer;
-  }
-  .btn-toggle-all:hover {
-    background: #e64a19;
   }
   .class-section {
     max-width: 900px;
@@ -132,11 +101,6 @@
     color: #0366d6;
     text-decoration: none;
   }
-  a:hover {
-    text-decoration: underline;
-  }
-
-  /* Popup thông báo */
   .popup {
     position: fixed;
     bottom: 20px;
@@ -146,15 +110,6 @@
     padding: 12px 20px;
     border-radius: 8px;
     display: none;
-    animation: fadein 0.3s, fadeout 0.3s 2.7s;
-  }
-  @keyframes fadein {
-    from {opacity: 0; transform: translateY(20px);}
-    to {opacity: 1; transform: translateY(0);}
-  }
-  @keyframes fadeout {
-    from {opacity: 1; transform: translateY(0);}
-    to {opacity: 0; transform: translateY(20px);}
   }
 </style>
 </head>
@@ -184,15 +139,14 @@
   </select>
   <button class="add-btn" onclick="generateJSON()">Tạo JSON</button>
   <button class="download-btn" onclick="downloadJSON()">📥 Download games.json</button>
-  <button class="back-btn" onclick="hideAdmin()">⬅ Quay về màn hình chính</button>
-  <div class="output" id="output"></div>
+  <button class="back-btn" onclick="hideAdmin()">⬅ Quay về</button>
 </div>
 
 <!-- Danh sách game -->
 <button class="btn-toggle-all" onclick="toggleAll()">📂 Mở / Đóng Tất Cả Game</button>
 <div class="class-section" id="container"></div>
 
-<!-- Popup thông báo -->
+<!-- Popup -->
 <div class="popup" id="popup"></div>
 
 <script>
@@ -200,24 +154,24 @@ let gamesData = [];
 
 async function loadGames() {
   try {
-    const response = await fetch('games.json');
+    const response = await fetch('./games.json');
+    if (!response.ok) throw new Error("Không thể tải games.json");
     gamesData = await response.json();
     renderGames();
   } catch (error) {
-    console.error("Lỗi load games.json", error);
+    showPopup("⚠ Lỗi load games.json", true);
+    console.error(error);
   }
 }
 
 function renderGames() {
   const container = document.getElementById('container');
   container.innerHTML = "";
-  gamesData.forEach((cls, index) => {
-    const classId = `class${index+1}`;
-    let gamesHTML = '';
-    cls.games.forEach(game => {
-      gamesHTML += `<li><a href="${game.link}" target="_blank">${game.icon} ${game.name}</a></li>`;
-    });
-    if (cls.games.length === 0) gamesHTML = "<li>(Chưa có game)</li>";
+  gamesData.forEach((cls, i) => {
+    const classId = `class${i+1}`;
+    let gamesHTML = cls.games.length 
+      ? cls.games.map(g => `<li><a href="${g.link}" target="_blank">${g.icon} ${g.name}</a></li>`).join('')
+      : "<li>(Chưa có game)</li>";
     container.innerHTML += `
       <div class="class-title" style="background:${cls.color}" onclick="toggleGames('${classId}')">📘 ${cls.class}</div>
       <ul id="${classId}" class="game-list">${gamesHTML}</ul>
@@ -233,15 +187,15 @@ function toggleGames(id) {
 
 function toggleAll() {
   document.querySelectorAll('.game-list').forEach(list => {
-    const isOpen = list.classList.contains('open');
-    list.classList.toggle('open', !isOpen);
-    list.style.maxHeight = !isOpen ? list.scrollHeight + "px" : null;
+    const open = list.classList.contains('open');
+    list.classList.toggle('open', !open);
+    list.style.maxHeight = !open ? list.scrollHeight + "px" : null;
   });
 }
 
 function showAdmin() {
-  const password = prompt("Nhập mật khẩu quản trị:");
-  if (password === "hakadmin") {
+  const pass = prompt("Nhập mật khẩu quản trị:");
+  if (pass === "hakadmin") {
     document.getElementById('adminForm').style.display = "block";
     window.scrollTo(0,0);
   } else {
@@ -254,21 +208,16 @@ function hideAdmin() {
 }
 
 function generateJSON() {
-  const name = document.getElementById('gameName').value.trim();
-  const link = document.getElementById('gameLink').value.trim();
-  const icon = document.getElementById('gameIcon').value.trim();
-  const cls = document.getElementById('gameClass').value;
-
+  const name = gameName.value.trim();
+  const link = gameLink.value.trim();
+  const icon = gameIcon.value.trim();
+  const cls = gameClass.value;
   if (!name || !link || !icon) {
-    alert("Vui lòng nhập đầy đủ thông tin!");
+    showPopup("⚠ Nhập đầy đủ thông tin", true);
     return;
   }
-
   const classObj = gamesData.find(c => c.class === cls);
-  if (classObj) {
-    classObj.games.push({ name, link, icon });
-  }
-
+  if (classObj) classObj.games.push({ name, link, icon });
   renderGames();
   showPopup(`✅ Đã thêm game vào ${cls}`);
 }
@@ -281,17 +230,15 @@ function downloadJSON() {
   a.download = 'games.json';
   a.click();
   URL.revokeObjectURL(url);
-
-  showPopup("📥 File games.json đã tải xuống thành công");
+  showPopup("📥 Đã tải games.json");
 }
 
-function showPopup(message) {
+function showPopup(msg, isError=false) {
   const popup = document.getElementById('popup');
-  popup.textContent = message;
+  popup.textContent = msg;
+  popup.style.background = isError ? "#f44336" : "#4CAF50";
   popup.style.display = "block";
-  setTimeout(() => {
-    popup.style.display = "none";
-  }, 3000);
+  setTimeout(() => popup.style.display = "none", 3000);
 }
 
 loadGames();

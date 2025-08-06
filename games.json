@@ -1,0 +1,20 @@
+[
+  {
+    "class": "Lớp 1",
+    "color": "#4CAF50",
+    "games": [
+      { "name": "Đọc phiên âm IPA", "link": "https://hakakh.github.io/numbers-to-20/", "icon": "🔤" },
+      { "name": "Nghe và viết chính tả", "link": "https://hakakh.github.io/RO6-SPORT-ACTIVITIES/", "icon": "🎧" },
+      { "name": "Trò chơi tìm chữ", "link": "https://hakakh.github.io/wordsearch-daily-routine/", "icon": "🧩" }
+    ]
+  },
+  {
+    "class": "Lớp 2",
+    "color": "#FF9800",
+    "games": [
+      { "name": "Typing games", "link": "#", "icon": "⌨" },
+      { "name": "Toán Tiếng Anh", "link": "#", "icon": "🧮" },
+      { "name": "Spelling games", "link": "#", "icon": "📝" }
+    ]
+  }
+]

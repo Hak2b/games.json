@@ -11,10 +11,41 @@
   {
     "class": "Lớp 2",
     "color": "#FF9800",
-    "games": [
-      { "name": "Typing games", "link": "#", "icon": "⌨" },
-      { "name": "Toán Tiếng Anh", "link": "#", "icon": "🧮" },
-      { "name": "Spelling games", "link": "#", "icon": "📝" }
-    ]
+    "games": []
+  },
+  {
+    "class": "Lớp 3",
+    "color": "#2196F3",
+    "games": []
+  },
+  {
+    "class": "Lớp 4",
+    "color": "#9C27B0",
+    "games": []
+  },
+  {
+    "class": "Lớp 5",
+    "color": "#E91E63",
+    "games": []
+  },
+  {
+    "class": "Lớp 6",
+    "color": "#009688",
+    "games": []
+  },
+  {
+    "class": "Lớp 7",
+    "color": "#795548",
+    "games": []
+  },
+  {
+    "class": "Lớp 8",
+    "color": "#673AB7",
+    "games": []
+  },
+  {
+    "class": "Lớp 9",
+    "color": "#3F51B5",
+    "games": []
   }
 ]

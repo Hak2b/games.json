@@ -3,96 +3,56 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kho Game Học Tập</title>
+<title>Cổng Game Học Tập</title>
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    background: #f4f4f4;
-    margin: 0;
+  body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; }
+  header {
+    background: linear-gradient(90deg, #1e3c72, #2a5298);
+    color: white; padding: 15px; text-align: center; position: relative;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
   }
-header {
-  background: linear-gradient(90deg, #1e3c72, #2a5298);
-  color: white;
-  padding: 15px;
-  text-align: center;
-  position: relative;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-}
   .admin-btn {
-    position: absolute;
-    right: 15px;
-    top: 15px;
-    background: #ff9800;
-    border: none;
-    padding: 5px 10px;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
+    position: absolute; right: 15px; top: 15px; background: #ff9800;
+    border: none; padding: 5px 10px; color: white; border-radius: 5px; cursor: pointer;
   }
   .btn-toggle-all {
-    display: block;
-    margin: 15px auto;
-    padding: 10px 15px;
-    background: #ff5722;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
+    display: block; margin: 15px auto; padding: 10px 15px;
+    background: #ff5722; color: white; border: none; border-radius: 6px; cursor: pointer;
   }
-  .class-section {
-    max-width: 900px;
-    margin: 20px auto;
-    padding: 10px;
-  }
+  .class-section { max-width: 900px; margin: 20px auto; padding: 10px; }
   .class-title {
-    color: white;
-    padding: 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-bottom: 8px;
-    font-size: 18px;
+    color: white; padding: 12px; border-radius: 8px; cursor: pointer;
+    margin-bottom: 8px; font-size: 18px;
   }
   .game-list {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-    background: white;
-    border-radius: 6px;
-    margin-bottom: 12px;
-    padding: 0 15px;
+    max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
+    background: white; border-radius: 6px; margin-bottom: 12px; padding: 0 15px;
   }
   .game-list.open { padding: 10px 15px; }
-  .game-list li { margin: 8px 0; list-style: none; }
-  a { color: #0366d6; text-decoration: none; }
+  .game-list li { margin: 8px 0; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+  a { color: #0366d6; text-decoration: none; flex: 1; }
+  .delete-btn {
+    background: #f44336; color: white; border: none; border-radius: 4px; padding: 3px 6px;
+    cursor: pointer; margin-left: 10px;
+  }
   .form-section {
-    background: white;
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 15px;
-    border-radius: 10px;
-    display: none;
+    background: white; max-width: 800px; margin: 20px auto; padding: 15px; border-radius: 10px; display: none;
   }
   .popup {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #4CAF50;
-    color: white;
-    padding: 12px 20px;
-    border-radius: 8px;
-    display: none;
+    position: fixed; bottom: 20px; right: 20px; background: #4CAF50; color: white;
+    padding: 12px 20px; border-radius: 8px; display: none;
   }
 </style>
 </head>
 <body>
 
 <header>
-  🎮 KHO GAME HỌC TẬP LỚP 1 → 9
+  🎮 CỔNG GAME HỌC TẬP LỚP 1 → 9
   <button class="admin-btn" onclick="showAdmin()">Quản trị</button>
 </header>
 
 <div class="form-section" id="adminForm">
-  <h3>➕ Thêm game</h3>
+  <h3>➕ Quản trị game</h3>
   <input id="gameName" placeholder="Tên game">
   <input id="gameLink" placeholder="Link game">
   <input id="gameIcon" placeholder="Icon (ví dụ: 🧩)">
@@ -107,8 +67,10 @@ header {
     <option value="Lớp 8">Lớp 8</option>
     <option value="Lớp 9">Lớp 9</option>
   </select>
-  <button onclick="addGame()">Thêm</button>
+  <br><br>
+  <button onclick="addGame()">Thêm game</button>
   <button onclick="downloadJSON()">📥 Download games.json</button>
+  <input type="file" id="uploadFile" accept=".json" style="margin-top:10px;" onchange="uploadJSON(event)">
   <button onclick="hideAdmin()">⬅ Quay về</button>
 </div>
 
@@ -118,6 +80,7 @@ header {
 
 <script>
 let gamesData = [];
+let isAdmin = false;
 
 async function loadGames() {
   try {
@@ -137,7 +100,11 @@ function renderGames() {
   gamesData.forEach((cls, i) => {
     const id = `class${i+1}`;
     let gamesHTML = cls.games.length
-      ? cls.games.map(g => `<li><a href="${g.link}" target="_blank">${g.icon} ${g.name}</a></li>`).join('')
+      ? cls.games.map((g, idx) => `
+        <li>
+          <a href="${g.link}" target="_blank">${g.icon} ${g.name}</a>
+          ${isAdmin ? `<button class="delete-btn" onclick="deleteGame(${i}, ${idx})">🗑</button>` : ""}
+        </li>`).join('')
       : "<li>(Chưa có game)</li>";
     container.innerHTML += `
       <div class="class-title" style="background:${cls.color}" onclick="toggleGames('${id}')">📘 ${cls.class}</div>
@@ -162,11 +129,17 @@ function toggleAll() {
 
 function showAdmin() {
   const pass = prompt("Nhập mật khẩu:");
-  if (pass === "hakadmin") document.getElementById('adminForm').style.display = "block";
+  if (pass === "hakadmin") {
+    isAdmin = true;
+    document.getElementById('adminForm').style.display = "block";
+    renderGames();
+  }
 }
 
 function hideAdmin() {
+  isAdmin = false;
   document.getElementById('adminForm').style.display = "none";
+  renderGames();
 }
 
 function addGame() {
@@ -180,6 +153,12 @@ function addGame() {
   showPopup(`✅ Đã thêm game vào ${cls}`);
 }
 
+function deleteGame(classIdx, gameIdx) {
+  gamesData[classIdx].games.splice(gameIdx, 1);
+  renderGames();
+  showPopup("🗑 Đã xoá game");
+}
+
 function downloadJSON() {
   const blob = new Blob([JSON.stringify(gamesData, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
@@ -187,6 +166,22 @@ function downloadJSON() {
   a.download = 'games.json';
   a.click();
   showPopup("📥 Đã tải games.json");
+}
+
+function uploadJSON(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      gamesData = JSON.parse(e.target.result);
+      renderGames();
+      showPopup("📤 Đã upload games.json");
+    } catch (err) {
+      showPopup("⚠ File không hợp lệ", true);
+    }
+  };
+  reader.readAsText(file);
 }
 
 function showPopup(msg, error) {

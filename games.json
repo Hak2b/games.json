@@ -3,18 +3,25 @@
     "class": "Lớp 1",
     "color": "#4CAF50",
     "games": [
-      { "name": "Đọc phiên âm IPA", "link": "https://hakakh.github.io/numbers-to-20/", "icon": "🔤" }
+      { "name": "Đọc phiên âm IPA", "link": "https://hakakh.github.io/numbers-to-20/", "icon": "🔤" },
+      { "name": "Nghe và viết chính tả", "link": "https://hakakh.github.io/RO6-SPORT-ACTIVITIES/", "icon": "🎧" }
     ]
   },
   {
     "class": "Lớp 2",
     "color": "#FF9800",
-    "games": []
+    "games": [
+      { "name": "Trò chơi tìm chữ", "link": "https://hakakh.github.io/wordsearch-daily-routine/", "icon": "🧩" },
+      { "name": "Typing Game", "link": "https://example.com", "icon": "⌨" }
+    ]
   },
   {
     "class": "Lớp 3",
     "color": "#2196F3",
-    "games": []
+    "games": [
+      { "name": "Toán tiếng Anh", "link": "https://example.com", "icon": "🧮" },
+      { "name": "Spelling Game", "link": "https://example.com", "icon": "📝" }
+    ]
   },
   {
     "class": "Lớp 4",

@@ -48,14 +48,17 @@
 }
 
 .game-list {
-  display: none;
+  max-height: 0;
+  overflow: hidden;
   background: white;
   border-radius: 6px;
-  padding: 10px 15px;
   margin-top: 8px;
+  padding: 0 15px;
+  transition: max-height 0.3s ease, padding 0.3s ease;
 }
 .game-list.open {
-  display: block;
+  padding: 10px 15px;
+  max-height: 500px; /* đủ để hiển thị tất cả game */
 }
   .game-list li { margin: 8px 0; list-style: none; display: flex; justify-content: space-between; align-items: center; }
   a { color: #0366d6; text-decoration: none; flex: 1; }
@@ -149,7 +152,6 @@ function renderGames() {
 function toggleGames(id) {
   const list = document.getElementById(id);
   list.classList.toggle('open');
-  list.style.maxHeight = list.classList.contains('open') ? list.scrollHeight + "px" : null;
 }
 
 function toggleAll() {
